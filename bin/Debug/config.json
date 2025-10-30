@@ -1,0 +1,35 @@
+{
+  "AllowedOrganizationIds": [204801],
+  "BankbotEnabled": true,
+  "LogAllTransactions": true,
+  "LogFormat": "{Time} - {PlayerName} - {ItemName}",
+  "CharSettings": {
+    "Ironmanbank": {
+      "BankingEnabled": true,
+      "StorageEnabled": true,
+      "TradeEnabled": true,
+      "PrivateMessageEnabled": true,
+      "AutoBagEnabled": false,
+      "BagReturnEnabled": true,
+      "AuthorizedUsers": [
+        "kjahsdkj",
+        "YourMainCharacter",
+        "TrustedFriend1",
+        "TrustedFriend2"
+      ],
+      "PrivateMessageCommands": {
+        "status": "Show bankbot status",
+        "help": "Show available commands",
+        "list": "List available commands",
+        "trade": "Start a trade session",
+        "return": "Return your saved items",
+        "bags": "List available bags",
+        "storage": "Access storage services"
+      },
+      "MaxItemsPerTrade": 20,
+      "TradeTimeoutMinutes": 5,
+      "LogTransactions": true,
+      "AutoAcceptTrades": false
+    }
+  }
+}

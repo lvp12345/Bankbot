@@ -1,0 +1,9 @@
+C:\Users\Michael\source\repos\Bankbot\BankbotLauncher\obj\Debug\BankbotLauncher.csproj.AssemblyReference.cache
+C:\Users\Michael\source\repos\Bankbot\BankbotLauncher\obj\Debug\BankbotLauncher.csproj.CoreCompileInputs.cache
+C:\Users\Michael\source\repos\Bankbot\BankbotLauncher\obj\Debug\BankbotLauncher.csproj.SuggestedBindingRedirects.cache
+C:\Users\Michael\source\repos\Bankbot\BankbotLauncher\obj\Debug\BankbotLauncher.exe.config
+C:\Users\Michael\source\repos\Bankbot\BankbotLauncher\bin\Debug\BankbotLauncher.exe.config
+C:\Users\Michael\source\repos\Bankbot\BankbotLauncher\bin\Debug\BankbotLauncher.exe
+C:\Users\Michael\source\repos\Bankbot\BankbotLauncher\bin\Debug\BankbotLauncher.pdb
+C:\Users\Michael\source\repos\Bankbot\BankbotLauncher\obj\Debug\BankbotLauncher.exe
+C:\Users\Michael\source\repos\Bankbot\BankbotLauncher\obj\Debug\BankbotLauncher.pdb

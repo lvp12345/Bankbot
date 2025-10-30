@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31606.5
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOSharp.Clientless", "AOSharp.Clientless\AOSharp.Clientless.csproj", "{17F89B31-0285-4634-9452-100C917E727F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{0D4088B8-B32E-4B9E-8B10-091FDBE25924}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestClientlessPlugin", "TestClientlessPlugin\TestClientlessPlugin.csproj", "{9721086C-6997-4967-A3EE-010D8D365B63}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ionic.Zlib", "Ionic.Zlib\Ionic.Zlib.csproj", "{346BAD9F-1DC5-4F87-8A6D-DC0188230EA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOSharp.Clientless.Chat", "AOSharp.Clientless.Chat\AOSharp.Clientless.Chat.csproj", "{F9592716-3007-450E-8263-52787132FDD7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOSharp.Clientless.Common", "AOSharp.Clientless.Common\AOSharp.Clientless.Common.csproj", "{31CD623D-0E5D-49A1-8103-11D39D0C1356}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17F89B31-0285-4634-9452-100C917E727F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17F89B31-0285-4634-9452-100C917E727F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17F89B31-0285-4634-9452-100C917E727F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17F89B31-0285-4634-9452-100C917E727F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D4088B8-B32E-4B9E-8B10-091FDBE25924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D4088B8-B32E-4B9E-8B10-091FDBE25924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D4088B8-B32E-4B9E-8B10-091FDBE25924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D4088B8-B32E-4B9E-8B10-091FDBE25924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9721086C-6997-4967-A3EE-010D8D365B63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9721086C-6997-4967-A3EE-010D8D365B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9721086C-6997-4967-A3EE-010D8D365B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9721086C-6997-4967-A3EE-010D8D365B63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{346BAD9F-1DC5-4F87-8A6D-DC0188230EA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{346BAD9F-1DC5-4F87-8A6D-DC0188230EA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{346BAD9F-1DC5-4F87-8A6D-DC0188230EA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{346BAD9F-1DC5-4F87-8A6D-DC0188230EA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9592716-3007-450E-8263-52787132FDD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9592716-3007-450E-8263-52787132FDD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9592716-3007-450E-8263-52787132FDD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9592716-3007-450E-8263-52787132FDD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31CD623D-0E5D-49A1-8103-11D39D0C1356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31CD623D-0E5D-49A1-8103-11D39D0C1356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31CD623D-0E5D-49A1-8103-11D39D0C1356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31CD623D-0E5D-49A1-8103-11D39D0C1356}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0419C038-0D6D-4734-9B3B-EBEC1CD4492F}
+	EndGlobalSection
+EndGlobal

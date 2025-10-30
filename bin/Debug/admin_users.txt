@@ -1,0 +1,5 @@
+# Add admin usernames here (one per line)
+# Names are case-insensitive and can be partial matches
+# Example:
+Shortycode
+code

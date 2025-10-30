@@ -1,0 +1,46 @@
+{
+  "CharSettings": {
+    "YourBankbotCharacterName": {
+      "BankingEnabled": true,
+      "StorageEnabled": true,
+      "TradeEnabled": true,
+      "PrivateMessageEnabled": true,
+      "AutoBagEnabled": false,
+      "BagReturnEnabled": true,
+      "AuthorizedUsers": [
+        "YourMainCharacter",
+        "TrustedFriend1",
+        "TrustedFriend2",
+        "GuildMate",
+        "AnotherTrustedPlayer"
+      ],
+      "PrivateMessageCommands": {
+        "status": "Show bankbot status",
+        "help": "Show available commands",
+        "trade": "Start a trade session",
+        "return": "Return your saved items",
+        "bags": "List available bags",
+        "storage": "Access storage services"
+      },
+      "MaxItemsPerTrade": 20,
+      "TradeTimeoutMinutes": 5,
+      "LogTransactions": true,
+      "AutoAcceptTrades": false,
+      "WebInterfaceEnabled": true,
+      "WebInterfacePort": 5000,
+      "WebInterfaceHost": "http://localhost",
+      "AutoSortEnabled": true,
+      "ItemSortingRules": {
+        "Infantry Symbiants": ["infantry"],
+        "Artillery Symbiants": ["artillery"],
+        "Support Symbiants": ["support"],
+        "Control Symbiants": ["control"],
+        "Exterminator Symbiants": ["exterminator"],
+        "Implants": ["implant"],
+        "Nano Crystals": ["nano crystal", "nano formula"],
+        "Weapons": ["pistol", "rifle", "sword", "axe", "hammer"],
+        "Armor": ["armor", "helmet", "boots", "gloves", "pants", "sleeves"]
+      }
+    }
+  }
+}

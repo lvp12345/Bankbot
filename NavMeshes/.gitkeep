@@ -1,0 +1,3 @@
+# This folder will contain navmesh files for different playfields
+# Navmesh files are named as {PlayfieldId}.navmesh
+# For example: 800.navmesh for Borealis

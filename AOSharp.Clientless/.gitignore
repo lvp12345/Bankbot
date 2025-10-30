@@ -1,0 +1,49 @@
+################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Pp]ackages/
+
+# Visual Studio 2015 cache/options directory
+.vs/
+*.nupkg
+*.nuspec
+*.bak
+/nuget.exe
+
+
+/.vs/AOSharp.Clientless
+/AOSharp.Clientless/bin/Debug
+/Ionic.Zlib/obj/Debug
+/AOSharp.Clientless/obj/Debug
+/Ionic.Zlib/bin/Debug
+/Test
+/TestClientlessPlugin
+/AOSharp.Clientless.Chat/bin/Debug
+/AOSharp.Clientless.Chat/obj/Debug
+/AOSharp.Clientless.Common/bin/Debug
+/AOSharp.Clientless.Common/obj/Debug
+/AOSharp.Clientless.Common/Properties
+/ChatTest/bin/Debug
+/ChatTest/obj/Debug/.NETFramework,Version=v4.8.AssemblyAttributes.cs
+/ChatTest/obj/Debug
+/AOSharp.Clientless/obj/Release
+/AOSharp.Clientless.nuspec.bak
+/AOSharp.Clientless.nuspec.bak
