@@ -1,4 +1,8 @@
 {
+  "AllowedOrganizationIds": [0],
+  "BankbotEnabled": true,
+  "LogAllTransactions": true,
+  "LogFormat": "{Time} - {PlayerName} - {ItemName}",
   "CharSettings": {
     "YourCharacterName": {
       "BankingEnabled": true,
