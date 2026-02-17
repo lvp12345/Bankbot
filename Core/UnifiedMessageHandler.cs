@@ -28,6 +28,7 @@ namespace Bankbot.Core
 
             _handlers = new Dictionary<string, IMessageHandler>(StringComparer.OrdinalIgnoreCase)
             {
+                { "help", new HelpMessageHandler() },
                 { "list", new ListMessageHandler() },
                 { "get", new GetMessageHandler() },
                 { "view", new ViewMessageHandler() },
