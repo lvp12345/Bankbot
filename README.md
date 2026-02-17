@@ -13,64 +13,83 @@ Bankbot is a clientless banking and storage bot for Anarchy Online, designed to 
 - **Private Message Commands**: Full command interface via tells
 - **Clientless Operation**: Runs without a game client
 
+## Prerequisites
+
+1. **.NET Framework 4.8** - [Download here](https://dotnet.microsoft.com/download/dotnet-framework/net48)
+2. **Visual Studio 2022** (or MSBuild tools)
+
+That's it. All dependencies (AOSharp.Clientless, NuGet packages) are included in the repo and restore automatically on build.
+
 ## Quick Start
 
-### 1. Build the Project
+### 1. Clone and Build
+
 ```bash
-dotnet build Bankbot.sln
+git clone https://github.com/lvp12345/Bankbot.git
 ```
 
-### 2. Configure Your Bot
+Open `Bankbot.sln` in Visual Studio and build (F6), or from command line:
 
-Copy the example config and edit it:
 ```bash
-copy Config.example.json Config.json
+msbuild Bankbot.sln /restore /p:Configuration=Debug
 ```
 
-Edit `Config.json` with your settings:
-```json
-{
-  "CharSettings": {
-    "YourBankbotCharacterName": {
-      "BankingEnabled": true,
-      "PrivateMessageEnabled": true,
-      "AuthorizedUsers": [
-        "YourMainCharacter",
-        "TrustedFriend1"
-      ]
-    }
-  }
-}
-```
+Everything builds to a single output folder: `bin\Debug\`
 
-### 3. Set Up the Launcher
+### 2. Configure the Launcher
 
-Copy the launcher config:
-```bash
-copy BankbotLauncher\launcher-config.example.json BankbotLauncher\launcher-config.json
-```
+After building, edit `bin\Debug\launcher-config.json` with your account details:
 
-Edit `BankbotLauncher\launcher-config.json`:
 ```json
 {
   "Username": "your_anarchy_online_username",
   "Password": "your_anarchy_online_password",
   "CharacterName": "your_bankbot_character_name",
-  "Dimension": "RubiKa2019"
+  "Dimension": 1
 }
 ```
 
-### 4. Copy Required Files
+**Dimension values:** `0` = Rubi-Ka, `1` = Rubi-Ka 2019
 
-Copy the Bankbot.dll to the launcher directory:
-```bash
-copy bin\Debug\Bankbot.dll BankbotLauncher\bin\Debug\
+### 3. Configure the Bot
+
+Edit `bin\Debug\config.json` with your bot settings:
+
+```json
+{
+  "CharSettings": {
+    "YourBankbotCharacterName": {
+      "BankingEnabled": true,
+      "StorageEnabled": true,
+      "TradeEnabled": true,
+      "PrivateMessageEnabled": true,
+      "AutoBagEnabled": false,
+      "BagReturnEnabled": true,
+      "AuthorizedUsers": ["YourMainCharacter", "TrustedFriend1"],
+      "MaxItemsPerTrade": 20,
+      "TradeTimeoutMinutes": 5,
+      "LogTransactions": true,
+      "AutoAcceptTrades": false,
+      "WebInterfaceEnabled": true,
+      "WebInterfacePort": 5000,
+      "WebInterfaceHost": "http://localhost",
+      "AutoSortEnabled": true,
+      "ItemSortingRules": {}
+    }
+  }
+}
 ```
 
-### 5. Run the Bot
+### 4. Run the Bot
+
 ```bash
-cd BankbotLauncher\bin\Debug
+cd bin\Debug
 BankbotLauncher.exe
+```
+
+Or run via command line arguments:
+```bash
+BankbotLauncher.exe <username> <password> <characterName> [dimension]
 ```
 
 ## Available Commands
@@ -106,26 +125,15 @@ Bankbot includes a built-in web server that provides a browser-based interface t
 - **Auto-Refresh**: Page automatically refreshes every 30 seconds
 - **Inventory Stats**: See free inventory and bag slots at a glance
 
-### Configuration
-
-The web interface can be configured in `Config.json`:
+### Web Interface Configuration
 
 ```json
 {
-  "CharSettings": {
-    "YourBankbotCharacterName": {
-      "WebInterfaceEnabled": true,
-      "WebInterfacePort": 5000,
-      "WebInterfaceHost": "http://localhost"
-    }
-  }
+  "WebInterfaceEnabled": true,
+  "WebInterfacePort": 5000,
+  "WebInterfaceHost": "http://localhost"
 }
 ```
-
-**Configuration Options:**
-- `WebInterfaceEnabled` - Enable/disable the web interface (default: `true`)
-- `WebInterfacePort` - Port number for the web server (default: `5000`)
-- `WebInterfaceHost` - Host address (default: `"http://localhost"`)
 
 **Note:** The web interface is publicly accessible to anyone who knows the URL. It's designed as a read-only catalog for browsing items - no authentication is required.
 
@@ -148,31 +156,21 @@ The bot comes with default sorting rules for common items:
 - **Weapons** (pistols, rifles, swords, axes, hammers)
 - **Armor** (helmets, boots, gloves, pants, sleeves)
 
-### Configuration
-
-Configure sorting rules in `Config.json`:
+### Sorting Configuration
 
 ```json
 {
-  "CharSettings": {
-    "YourBankbotCharacterName": {
-      "AutoSortEnabled": true,
-      "ItemSortingRules": {
-        "Infantry Symbiants": ["infantry"],
-        "Artillery Symbiants": ["artillery"],
-        "Implants": ["implant"],
-        "Nano Crystals": ["nano crystal", "nano formula"],
-        "Weapons": ["pistol", "rifle", "sword"],
-        "Custom Category": ["pattern1", "pattern2"]
-      }
-    }
+  "AutoSortEnabled": true,
+  "ItemSortingRules": {
+    "Infantry Symbiants": ["infantry"],
+    "Artillery Symbiants": ["artillery"],
+    "Implants": ["implant"],
+    "Nano Crystals": ["nano crystal", "nano formula"],
+    "Weapons": ["pistol", "rifle", "sword"],
+    "Custom Category": ["pattern1", "pattern2"]
   }
 }
 ```
-
-**Configuration Options:**
-- `AutoSortEnabled` - Enable/disable automatic sorting (default: `true`)
-- `ItemSortingRules` - Dictionary of category names and matching patterns
 
 **Pattern Matching:**
 - Patterns are case-insensitive
@@ -190,7 +188,7 @@ Configure sorting rules in `Config.json`:
 - The bot will use existing bags with space before creating/using new ones
 - Items that don't match any pattern remain in main inventory
 
-## Configuration Options
+## Configuration Reference
 
 ### Character Settings
 - `BankingEnabled` - Enable/disable banking services
@@ -200,60 +198,34 @@ Configure sorting rules in `Config.json`:
 - `AutoBagEnabled` - Automatically manage bags
 - `BagReturnEnabled` - Allow bag return functionality
 
-### Web Interface Settings
-- `WebInterfaceEnabled` - Enable/disable web interface (default: `true`)
-- `WebInterfacePort` - Port number for web server (default: `5000`)
-- `WebInterfaceHost` - Host address (default: `"http://localhost"`)
-
-### Auto-Sorting Settings
-- `AutoSortEnabled` - Enable/disable automatic item sorting (default: `true`)
-- `ItemSortingRules` - Dictionary of category names and item name patterns
-
 ### Security Settings
 - `AuthorizedUsers` - List of players who can use the bot
 - `MaxItemsPerTrade` - Maximum items per trade session
 - `TradeTimeoutMinutes` - Trade timeout in minutes
 - `AutoAcceptTrades` - Automatically accept trades (use with caution)
 
-## Project Structure
-
-```
-Bankbot/
-├── Bankbot.cs              # Main plugin entry point
-├── Config.cs               # Configuration management
-├── Config.example.json     # Example configuration
-├── Core/                   # Core functionality
-│   ├── ItemTracker.cs      # Item tracking and management
-│   ├── ItemSorter.cs       # Automatic item sorting system
-│   ├── TradeLogger.cs      # Transaction logging
-│   ├── TradingSystem.cs    # Trade management
-│   └── WebServer.cs        # Web interface server
-├── Modules/                # Bot modules
-│   └── PrivateMessageModule.cs  # PM command handling
-└── BankbotLauncher/        # Clientless launcher
-    ├── Program.cs          # Launcher application
-    ├── launcher-config.example.json
-    └── README.md           # Launcher documentation
-```
+### Auto-Sorting Settings
+- `AutoSortEnabled` - Enable/disable automatic item sorting (default: `true`)
+- `ItemSortingRules` - Dictionary of category names and item name patterns
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **"Bankbot plugin not found"**
-   - Ensure Bankbot.dll is in the launcher's output directory
-   - Check that the build was successful
+1. **Build fails with missing references**
+   - Make sure you're building the entire solution (`Bankbot.sln`), not individual projects
+   - NuGet packages restore automatically on build - no manual steps needed
 
 2. **"Connection failed"**
-   - Verify your username, password, and character name
+   - Verify your username, password, and character name in `launcher-config.json`
    - Check that the character exists on the specified dimension
 
 3. **"Access denied" messages**
-   - Make sure your character is in the AuthorizedUsers list
-   - Check that PrivateMessageEnabled is true
+   - Make sure your character is in the `AuthorizedUsers` list in `config.json`
+   - Check that `PrivateMessageEnabled` is `true`
 
 4. **Trade issues**
-   - Ensure TradeEnabled is true in config
+   - Ensure `TradeEnabled` is `true` in config
    - Check that you're within range (for position-dependent features)
 
 5. **Web interface not loading**
@@ -274,11 +246,7 @@ To enable debug logging, the bot will output detailed information to the console
 
 ## Security Notes
 
-- Keep your launcher-config.json secure (contains account credentials)
-- Only add trusted players to AuthorizedUsers
+- Keep your `launcher-config.json` secure (contains account credentials)
+- Only add trusted players to `AuthorizedUsers`
 - Consider using a dedicated account for the bankbot
 - Regularly backup your configuration and logs
-
-## Support
-
-For issues and questions, check the troubleshooting section above or review the code for specific functionality.

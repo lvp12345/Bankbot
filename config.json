@@ -1,0 +1,30 @@
+{
+  "CharSettings": {
+    "YourCharacterName": {
+      "BankingEnabled": true,
+      "StorageEnabled": true,
+      "TradeEnabled": true,
+      "PrivateMessageEnabled": true,
+      "AutoBagEnabled": false,
+      "BagReturnEnabled": true,
+      "AuthorizedUsers": [],
+      "PrivateMessageCommands": {
+        "status": "Show bankbot status",
+        "help": "Show available commands",
+        "trade": "Start a trade session",
+        "return": "Return your saved items",
+        "bags": "List available bags",
+        "storage": "Access storage services"
+      },
+      "MaxItemsPerTrade": 20,
+      "TradeTimeoutMinutes": 5,
+      "LogTransactions": true,
+      "AutoAcceptTrades": false,
+      "WebInterfaceEnabled": true,
+      "WebInterfacePort": 5000,
+      "WebInterfaceHost": "http://localhost",
+      "AutoSortEnabled": true,
+      "ItemSortingRules": {}
+    }
+  }
+}
