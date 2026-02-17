@@ -1,6 +1,0 @@
-C:\Users\Michael\source\repos\Bankbot\obj\Debug\Bankbot.csproj.AssemblyReference.cache
-C:\Users\Michael\source\repos\Bankbot\obj\Debug\Bankbot.csproj.CoreCompileInputs.cache
-C:\Users\Michael\source\repos\Bankbot\bin\Debug\Bankbot.dll
-C:\Users\Michael\source\repos\Bankbot\bin\Debug\Bankbot.pdb
-C:\Users\Michael\source\repos\Bankbot\obj\Debug\Bankbot.dll
-C:\Users\Michael\source\repos\Bankbot\obj\Debug\Bankbot.pdb

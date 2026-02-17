@@ -110,7 +110,7 @@ namespace Bankbot.Core
         {
             try
             {
-                var targetPlayer = DynelManager.Players
+                var targetPlayer = AOSharp.Clientless.DynelManager.Players
                     .FirstOrDefault(p => p.Name.Equals(playerName, StringComparison.OrdinalIgnoreCase));
 
                 if (targetPlayer != null)
