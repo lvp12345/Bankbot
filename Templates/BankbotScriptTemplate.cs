@@ -4,11 +4,8 @@ using AOSharp.Clientless;
 
 namespace Bankbot.Templates
 {
-    // REMOVED: Help functionality no longer needed - only using list command
     public static class BankbotScriptTemplate
     {
-        // REMOVED: Help functionality no longer needed
-        /*
         public static string HelpWindow()
         {
             try
@@ -16,7 +13,6 @@ namespace Bankbot.Templates
                 string template = GetTemplateContent("BankbotHelpTemplate");
                 if (!string.IsNullOrEmpty(template))
                 {
-                    // Simple string replacement for botname
                     return template.Replace("{{ botname }}", Client.CharacterName);
                 }
                 else
@@ -26,14 +22,10 @@ namespace Bankbot.Templates
             }
             catch
             {
-                // Silent error handling
                 return CreateFallbackHelp();
             }
         }
-        */
 
-        // REMOVED: Help functionality no longer needed
-        /*
         public static string CategoryHelpWindow(string templateName)
         {
             try
@@ -41,7 +33,6 @@ namespace Bankbot.Templates
                 string template = GetTemplateContent(templateName);
                 if (!string.IsNullOrEmpty(template))
                 {
-                    // Simple string replacement for botname
                     return template.Replace("{{ botname }}", Client.CharacterName);
                 }
                 else
@@ -51,11 +42,9 @@ namespace Bankbot.Templates
             }
             catch
             {
-                // Silent error handling
                 return CreateFallbackHelp();
             }
         }
-        */
 
         private static string CreateFallbackHelp()
         {

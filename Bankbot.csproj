@@ -71,6 +71,7 @@
     <Compile Include="Core\MessageHandler.cs" />
     <Compile Include="Core\ListMessageHandler.cs" />
     <Compile Include="Core\GetMessageHandler.cs" />
+    <Compile Include="Core\HelpMessageHandler.cs" />
     <Compile Include="Core\ViewMessageHandler.cs" />
     <Compile Include="Core\OrgCheckMessageHandler.cs" />
     <Compile Include="Core\OrgLockoutConfig.cs" />
