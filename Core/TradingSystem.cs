@@ -975,10 +975,34 @@ namespace Bankbot.Core
                         // Move item to main inventory
                         if (MoveItemToMainInventory(storedItem.ActualItem, emptySlot))
                         {
-                            // Wait for the move to complete
-                            System.Threading.Thread.Sleep(200);
-                            Logger.Information($"[TRADING SYSTEM] Successfully moved {storedItem.Name} to main inventory");
-                            return storedItem.ActualItem;
+                            // Wait for the move to complete - needs time for server round-trip
+                            System.Threading.Thread.Sleep(500);
+
+                            // Re-find the item in main inventory to get updated slot reference
+                            var movedItem = Inventory.Items.FirstOrDefault(item =>
+                                item.UniqueIdentity.Instance == storedItem.ItemInstance &&
+                                item.Slot.Type == IdentityType.Inventory);
+
+                            if (movedItem != null)
+                            {
+                                Logger.Information($"[TRADING SYSTEM] Successfully moved {storedItem.Name} to main inventory (slot {movedItem.Slot.Instance})");
+                                return movedItem;
+                            }
+
+                            // Fallback: try matching by name if instance didn't match
+                            movedItem = Inventory.Items.FirstOrDefault(item =>
+                                item.Slot.Type == IdentityType.Inventory &&
+                                (item.Name.Equals(storedItem.Name, StringComparison.OrdinalIgnoreCase) ||
+                                 (storedItem.OriginalName != null && item.Name.Equals(storedItem.OriginalName, StringComparison.OrdinalIgnoreCase))));
+
+                            if (movedItem != null)
+                            {
+                                Logger.Information($"[TRADING SYSTEM] Found moved item by name: {movedItem.Name} (slot {movedItem.Slot.Instance})");
+                                return movedItem;
+                            }
+
+                            Logger.Information($"[TRADING SYSTEM] Item move sent but couldn't find item in main inventory");
+                            return null;
                         }
                         else
                         {
@@ -993,7 +1017,8 @@ namespace Bankbot.Core
                 // Fallback: check if the item is already in main inventory
                 var inventoryItem = Inventory.Items.FirstOrDefault(item =>
                     item.UniqueIdentity.Instance == storedItem.ItemInstance &&
-                    item.Name.Equals(storedItem.Name, StringComparison.OrdinalIgnoreCase) &&
+                    (item.Name.Equals(storedItem.Name, StringComparison.OrdinalIgnoreCase) ||
+                     (storedItem.OriginalName != null && item.Name.Equals(storedItem.OriginalName, StringComparison.OrdinalIgnoreCase))) &&
                     item.Slot.Type == IdentityType.Inventory);
 
                 if (inventoryItem != null)
@@ -1010,7 +1035,8 @@ namespace Bankbot.Core
 
                     var bagItem = backpack.Items.FirstOrDefault(item =>
                         item.UniqueIdentity.Instance == storedItem.ItemInstance &&
-                        item.Name.Equals(storedItem.Name, StringComparison.OrdinalIgnoreCase));
+                        (item.Name.Equals(storedItem.Name, StringComparison.OrdinalIgnoreCase) ||
+                         (storedItem.OriginalName != null && item.Name.Equals(storedItem.OriginalName, StringComparison.OrdinalIgnoreCase))));
 
                     if (bagItem != null)
                     {

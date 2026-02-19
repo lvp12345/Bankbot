@@ -131,21 +131,39 @@ namespace Bankbot.Core
                 // Determine which category this item belongs to
                 string targetBagName = DetermineItemCategory(item);
 
+                Container targetBag;
+
                 if (string.IsNullOrEmpty(targetBagName))
                 {
-                    Logger.Information($"[ITEM SORTER] No category match for '{item.Name}' - leaving in inventory");
-                    return;
+                    // No category match - put in any bag with free space
+                    Logger.Information($"[ITEM SORTER] No category match for '{item.Name}' - finding any bag with space");
+                    targetBag = FindAnyBagWithSpace();
+
+                    if (targetBag == null)
+                    {
+                        Logger.Information($"[ITEM SORTER] No bags with free space for uncategorized item '{item.Name}'");
+                        return;
+                    }
                 }
-
-                Logger.Information($"[ITEM SORTER] Item '{item.Name}' matches category '{targetBagName}'");
-
-                // Find or create a bag for this category
-                var targetBag = FindOrCreateBagForCategory(targetBagName);
-
-                if (targetBag == null)
+                else
                 {
-                    Logger.Information($"[ITEM SORTER] Could not find/create bag for category '{targetBagName}'");
-                    return;
+                    Logger.Information($"[ITEM SORTER] Item '{item.Name}' matches category '{targetBagName}'");
+
+                    // Find or create a bag for this category
+                    targetBag = FindOrCreateBagForCategory(targetBagName);
+
+                    if (targetBag == null)
+                    {
+                        // Category bag full/not found - try any bag with space as fallback
+                        Logger.Information($"[ITEM SORTER] No bag for category '{targetBagName}', trying any bag with space");
+                        targetBag = FindAnyBagWithSpace();
+
+                        if (targetBag == null)
+                        {
+                            Logger.Information($"[ITEM SORTER] No bags with free space at all");
+                            return;
+                        }
+                    }
                 }
 
                 // Move item to the bag
@@ -209,7 +227,8 @@ namespace Bankbot.Core
                 var allMatchingBags = Inventory.Containers.Where(c =>
                     c.IsOpen &&
                     c.Item != null &&
-                    c.Item.Name.StartsWith(categoryName, StringComparison.OrdinalIgnoreCase)).ToList();
+                    (c.Item.Name.StartsWith(categoryName, StringComparison.OrdinalIgnoreCase) ||
+                     (CustomNameRegistry.GetCustomName(c.Item.UniqueIdentity.Instance) ?? "").StartsWith(categoryName, StringComparison.OrdinalIgnoreCase))).ToList();
 
                 if (allMatchingBags.Any())
                 {
@@ -239,7 +258,8 @@ namespace Bankbot.Core
         }
 
         /// <summary>
-        /// Find a bag with the given name that has free space
+        /// Find a bag with the given name that has free space.
+        /// Checks both actual bag name and custom name.
         /// </summary>
         private static Container FindBagWithSpace(string bagName)
         {
@@ -250,15 +270,19 @@ namespace Bankbot.Core
                     if (!container.IsOpen || container.Item == null)
                         continue;
 
-                    // Check if bag name matches (case-insensitive, starts with)
-                    if (container.Item.Name.StartsWith(bagName, StringComparison.OrdinalIgnoreCase))
+                    // Check both actual name and custom name (case-insensitive, starts with)
+                    string customName = CustomNameRegistry.GetCustomName(container.Item.UniqueIdentity.Instance);
+                    bool nameMatches = container.Item.Name.StartsWith(bagName, StringComparison.OrdinalIgnoreCase) ||
+                                      (customName != null && customName.StartsWith(bagName, StringComparison.OrdinalIgnoreCase));
+
+                    if (nameMatches)
                     {
                         int estimatedCapacity = ItemTracker.EstimateBagCapacity(container.Item.Name);
                         int currentItems = container.Items.Count;
 
                         if (currentItems < estimatedCapacity - 1) // Leave at least 1 slot free
                         {
-                            Logger.Information($"[ITEM SORTER] Bag '{container.Item.Name}' has space: {currentItems}/{estimatedCapacity}");
+                            Logger.Information($"[ITEM SORTER] Bag '{customName ?? container.Item.Name}' has space: {currentItems}/{estimatedCapacity}");
                             return container;
                         }
                     }
@@ -269,6 +293,38 @@ namespace Bankbot.Core
             catch (Exception ex)
             {
                 Logger.Error($"[ITEM SORTER] Error finding bag with space: {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Find any open bag with free space, regardless of name/category
+        /// </summary>
+        private static Container FindAnyBagWithSpace()
+        {
+            try
+            {
+                foreach (var container in Inventory.Containers)
+                {
+                    if (!container.IsOpen || container.Item == null)
+                        continue;
+
+                    int estimatedCapacity = ItemTracker.EstimateBagCapacity(container.Item.Name);
+                    int currentItems = container.Items.Count;
+
+                    if (currentItems < estimatedCapacity - 1)
+                    {
+                        string displayName = CustomNameRegistry.GetCustomName(container.Item.UniqueIdentity.Instance) ?? container.Item.Name;
+                        Logger.Information($"[ITEM SORTER] Found bag with space: '{displayName}' ({currentItems}/{estimatedCapacity})");
+                        return container;
+                    }
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"[ITEM SORTER] Error finding any bag with space: {ex.Message}");
                 return null;
             }
         }
