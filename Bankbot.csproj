@@ -91,9 +91,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
+    <None Include="config.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureConfigExists" AfterTargets="Build">
+    <Copy SourceFiles="config.json" DestinationFolder="$(OutputPath)" Condition="!Exists('$(OutputPath)config.json')" />
+  </Target>
 </Project>
