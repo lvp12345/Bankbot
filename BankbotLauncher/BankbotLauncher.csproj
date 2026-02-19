@@ -69,9 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Content Include="launcher-config.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
+    <None Include="launcher-config.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureLauncherConfigExists" AfterTargets="Build">
+    <Copy SourceFiles="launcher-config.json" DestinationFolder="$(OutputPath)" Condition="!Exists('$(OutputPath)launcher-config.json')" />
+  </Target>
 </Project>
