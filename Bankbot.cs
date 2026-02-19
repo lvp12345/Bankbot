@@ -45,6 +45,7 @@ namespace Bankbot
                 Logger.Information("[BANKBOT] PrivateMessageModule initialization completed");
 
                 // Initialize storage and logging systems
+                Core.CustomNameRegistry.Initialize();
                 Core.ItemTracker.Initialize();
                 Core.TradeLogger.Initialize();
                 Core.TradingSystem.Initialize();

@@ -160,6 +160,8 @@ namespace AOSharp.Clientless.Net
         {
             try
             {
+                Client.RawPacketReceived?.Invoke(null, packet);
+
                 Message message = _serializer.Deserialize(packet);
 
                 if (message == null)

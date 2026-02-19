@@ -79,6 +79,8 @@
     <Compile Include="Core\ItemSorter.cs" />
     <Compile Include="Core\TradeLogger.cs" />
     <Compile Include="Core\TradingSystem.cs" />
+    <Compile Include="Core\CustomNameRegistry.cs" />
+    <Compile Include="Core\NameMessageHandler.cs" />
     <Compile Include="Core\WebServer.cs" />
     <!-- Modules -->
     <Compile Include="Modules\PrivateMessageModule.cs" />
