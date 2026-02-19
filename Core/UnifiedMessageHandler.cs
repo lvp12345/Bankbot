@@ -32,7 +32,8 @@ namespace Bankbot.Core
                 { "list", new ListMessageHandler() },
                 { "get", new GetMessageHandler() },
                 { "view", new ViewMessageHandler() },
-                { "orgcheck", new OrgCheckMessageHandler() }
+                { "orgcheck", new OrgCheckMessageHandler() },
+                { "name", new NameMessageHandler() }
             };
 
             _initialized = true;

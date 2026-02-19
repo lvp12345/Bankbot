@@ -439,7 +439,7 @@ namespace Bankbot.Core
 
                     if (bagInInventory != null)
                     {
-                        bagName = bagInInventory.Name;
+                        bagName = CustomNameRegistry.GetDisplayName(bagInInventory.UniqueIdentity.Instance, bagInInventory.Name);
                     }
                     else
                     {
@@ -456,7 +456,8 @@ namespace Bankbot.Core
                         var storedItem = new StoredItem
                         {
                             Id = (uint)bagItem.Id,
-                            Name = bagItem.Name,
+                            Name = CustomNameRegistry.GetDisplayName(bagItem.UniqueIdentity.Instance, bagItem.Name),
+                            OriginalName = bagItem.Name,
                             Quality = 0,
                             Quantity = 1,
                             StoredBy = "Player", // Generic since we don't track individual players in live mode
@@ -506,7 +507,8 @@ namespace Bankbot.Core
                     var storedItem = new StoredItem
                     {
                         Id = (uint)item.Id,
-                        Name = item.Name,
+                        Name = CustomNameRegistry.GetDisplayName(item.UniqueIdentity.Instance, item.Name),
+                        OriginalName = item.Name,
                         Quality = 0,
                         Quantity = 1,
                         StoredBy = "Player",
@@ -578,13 +580,15 @@ namespace Bankbot.Core
 
                 // PRIMARY SEARCH: Look in main inventory for bags with specific instance
                 LogTransaction("SYSTEM", $"*** SEARCH DEBUG *** Looking in main inventory for '{itemName}' with instance {instanceId}");
-                foreach (var item in Inventory.Items.Where(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase)))
+                foreach (var item in Inventory.Items.Where(i => i.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase)
+                    || (CustomNameRegistry.GetCustomName(i.UniqueIdentity.Instance) ?? "").Equals(itemName, StringComparison.OrdinalIgnoreCase)))
                 {
-                    LogTransaction("SYSTEM", $"*** SEARCH DEBUG *** Found item '{item.Name}' with instance {item.UniqueIdentity.Instance} (looking for {instanceId})");
+                    LogTransaction("SYSTEM", $"*** SEARCH DEBUG *** Found item '{item.Name}' (custom: '{CustomNameRegistry.GetCustomName(item.UniqueIdentity.Instance) ?? "none"}') with instance {item.UniqueIdentity.Instance} (looking for {instanceId})");
                 }
 
                 var inventoryItem = Inventory.Items.FirstOrDefault(item =>
-                    item.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase) &&
+                    (item.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase) ||
+                    (CustomNameRegistry.GetCustomName(item.UniqueIdentity.Instance) ?? "").Equals(itemName, StringComparison.OrdinalIgnoreCase)) &&
                     item.UniqueIdentity.Instance == instanceId);
 
                 if (inventoryItem != null)
@@ -616,7 +620,8 @@ namespace Bankbot.Core
                 foreach (var backpack in Inventory.Containers)
                 {
                     var bagItem = backpack.Items.FirstOrDefault(item =>
-                        item.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase) &&
+                        (item.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase) ||
+                        (CustomNameRegistry.GetCustomName(item.UniqueIdentity.Instance) ?? "").Equals(itemName, StringComparison.OrdinalIgnoreCase)) &&
                         item.UniqueIdentity.Instance == instanceId);
 
                     if (bagItem != null)
@@ -678,7 +683,8 @@ namespace Bankbot.Core
 
                     var bagItem = backpack.Items.FirstOrDefault(item =>
                         item.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase) ||
-                        CleanItemNameForSearch(item.Name).Equals(itemName, StringComparison.OrdinalIgnoreCase));
+                        CleanItemNameForSearch(item.Name).Equals(itemName, StringComparison.OrdinalIgnoreCase) ||
+                        (CustomNameRegistry.GetCustomName(item.UniqueIdentity.Instance) ?? "").Equals(itemName, StringComparison.OrdinalIgnoreCase));
 
                     if (bagItem != null)
                     {
@@ -717,7 +723,8 @@ namespace Bankbot.Core
 
                 var inventoryItem = Inventory.Items.FirstOrDefault(item =>
                     item.Name.Equals(itemName, StringComparison.OrdinalIgnoreCase) ||
-                    CleanItemNameForSearch(item.Name).Equals(itemName, StringComparison.OrdinalIgnoreCase));
+                    CleanItemNameForSearch(item.Name).Equals(itemName, StringComparison.OrdinalIgnoreCase) ||
+                    (CustomNameRegistry.GetCustomName(item.UniqueIdentity.Instance) ?? "").Equals(itemName, StringComparison.OrdinalIgnoreCase));
 
                 if (inventoryItem != null)
                 {
@@ -1333,6 +1340,7 @@ namespace Bankbot.Core
     {
         public uint Id { get; set; }
         public string Name { get; set; }
+        public string OriginalName { get; set; }
         public int Quality { get; set; }
         public int Quantity { get; set; }
         public string StoredBy { get; set; }

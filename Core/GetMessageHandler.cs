@@ -72,11 +72,12 @@ namespace Bankbot.Core
                     item = ItemTracker.FindItemByNameAndInstance(itemName, instanceId);
                     if (item == null)
                     {
-                        // Search all items to find one that matches when quotes are removed
+                        // Search all items to find one that matches when quotes are removed or by original name
                         var allItems = ItemTracker.GetStoredItems(true);
                         item = allItems.Cast<StoredItem>().FirstOrDefault(i =>
                             i.ItemInstance == instanceId &&
-                            i.Name.Replace("'", "") == itemName);
+                            (i.Name.Replace("'", "") == itemName ||
+                            (i.OriginalName != null && i.OriginalName.Equals(itemName, StringComparison.OrdinalIgnoreCase))));
 
                         Logger.Information($"[GET HANDLER] Fallback search found: {(item != null ? item.Name : "nothing")}");
                     }
@@ -91,10 +92,11 @@ namespace Bankbot.Core
                     item = ItemTracker.FindItemByName(itemName);
                     if (item == null)
                     {
-                        // Search all items to find one that matches when quotes are removed
+                        // Search all items to find one that matches when quotes are removed or by original name
                         var allItems = ItemTracker.GetStoredItems(true);
                         item = allItems.Cast<StoredItem>().FirstOrDefault(i =>
-                            i.Name.Replace("'", "") == itemName);
+                            i.Name.Replace("'", "") == itemName ||
+                            (i.OriginalName != null && i.OriginalName.Equals(itemName, StringComparison.OrdinalIgnoreCase)));
 
                         Logger.Information($"[GET HANDLER] Fallback search found: {(item != null ? item.Name : "nothing")}");
                     }

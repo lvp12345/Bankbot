@@ -50,6 +50,7 @@ namespace AOSharp.Clientless
         public static EventHandler<double> OnUpdate;
         public static EventHandler<Message> MessageReceived;
         public static EventHandler<byte[]> PacketReceived;
+        public static EventHandler<byte[]> RawPacketReceived;
         public static Action<CharacterSelect> CharacterSelect;
         public static Action<bool> CharacterInPlay;
         public static Action Died;
