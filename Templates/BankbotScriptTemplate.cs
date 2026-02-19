@@ -50,38 +50,31 @@ namespace Bankbot.Templates
         {
             string botName = Client.CharacterName;
             return $@"<a href=""text://
-<font color=#00D4FF>Storage Bot Help Menu</font>
+<font color=#00D4FF>Bankbot Help</font>
 <font color=#00D4FF>Bot: {botName}</font>
 
 <img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
 
-<font color=#00D4FF>=== STORAGE COMMANDS ===</font>
-<a href='chatcmd:///tell {botName} trade'><font color=#00BDBD>trade</font></a><font color=#FFFFFF> - Give me items to store in catalog</font>
+<font color=#00D4FF>=== COMMANDS ===</font>
+<a href='chatcmd:///tell {botName} help'><font color=#00BDBD>help</font></a><font color=#FFFFFF> - Show this help menu</font>
 <a href='chatcmd:///tell {botName} list'><font color=#00BDBD>list</font></a><font color=#FFFFFF> - View stored items with GET buttons</font>
-<a href='chatcmd:///tell {botName} get <item name>'><font color=#00BDBD>get <item name></font></a><font color=#FFFFFF> - Retrieve a specific item</font>
-<a href='chatcmd:///tell {botName} queue'><font color=#00BDBD>queue</font></a><font color=#FFFFFF> - Check your position in the trade queue</font>
-
-<img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
-
-<font color=#00D4FF>=== HELP CATEGORIES ===</font>
-<a href='chatcmd:///tell {botName} help storage'><font color=#00BDBD>help storage</font></a><font color=#FFFFFF> - Show storage catalog window</font>
-<a href='chatcmd:///tell {botName} help carb'><font color=#00BDBD>help carb</font></a><font color=#FFFFFF> - Show carb armor help</font>
-<a href='chatcmd:///tell {botName} help implants'><font color=#00BDBD>help implants</font></a><font color=#FFFFFF> - Implant processing help</font>
-<a href='chatcmd:///tell {botName} help clusters'><font color=#00BDBD>help clusters</font></a><font color=#FFFFFF> - Cluster processing help</font>
-<a href='chatcmd:///tell {botName} help bags'><font color=#00BDBD>help bags</font></a><font color=#FFFFFF> - Bag processing help</font>
+<a href='chatcmd:///tell {botName} get '><font color=#00BDBD>get &lt;item name&gt;</font></a><font color=#FFFFFF> - Retrieve a specific item</font>
+<a href='chatcmd:///tell {botName} view '><font color=#00BDBD>view &lt;item name&gt;</font></a><font color=#FFFFFF> - View item details</font>
+<a href='chatcmd:///tell {botName} name list'><font color=#00BDBD>name list</font></a><font color=#FFFFFF> - Show bags with custom names</font>
+<a href='chatcmd:///tell {botName} orgcheck'><font color=#00BDBD>orgcheck</font></a><font color=#FFFFFF> - Check org authorization</font>
 
 <img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
 
 <font color=#FFFF00>HOW TO USE:</font>
 <font color=#FFFFFF>1. Come stand next to me</font>
-<font color=#FFFFFF>2. Send: /tell {botName} trade</font>
-<font color=#FFFFFF>3. Put items/bags in trade and give them to me</font>
-<font color=#FFFFFF>4. Use 'list' to see stored items and 'get <item>' to retrieve them</font>
+<font color=#FFFFFF>2. Open a trade and give me items to store</font>
+<font color=#FFFFFF>3. Use 'list' to browse stored items</font>
+<font color=#FFFFFF>4. Use 'get &lt;item&gt;' to retrieve them</font>
 
 <img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>
 
-<font color=#888888>Storage Bot V2.0 - Multi-Function Storage System</font>
-"">Storage Bot Help Menu</a>";
+<font color=#888888>Bankbot - Item Storage System</font>
+"">Bankbot Help</a>";
         }
 
         private static string GetTemplateContent(string templateFile)

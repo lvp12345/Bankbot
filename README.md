@@ -59,17 +59,6 @@ Edit `bin\Debug\config.json` with your bot settings:
 {
   "CharSettings": {
     "YourBankbotCharacterName": {
-      "BankingEnabled": true,
-      "StorageEnabled": true,
-      "TradeEnabled": true,
-      "PrivateMessageEnabled": true,
-      "AutoBagEnabled": false,
-      "BagReturnEnabled": true,
-      "AuthorizedUsers": ["YourMainCharacter", "TrustedFriend1"],
-      "MaxItemsPerTrade": 20,
-      "TradeTimeoutMinutes": 5,
-      "LogTransactions": true,
-      "AutoAcceptTrades": false,
       "WebInterfaceEnabled": true,
       "WebInterfacePort": 5000,
       "WebInterfaceHost": "http://localhost",
@@ -97,13 +86,9 @@ BankbotLauncher.exe <username> <password> <characterName> [dimension]
 Send these commands via private message to your bankbot:
 
 - `help` - Show available commands
-- `status` - Show bot status
 - `list` - Display all stored items (paginated)
-- `get <item name> <instance>` - Retrieve a specific item
-- `trade` - Start a trade session
-- `return` - Return your saved items
-- `bags` - List available bags
-- `storage` - Access storage services
+- `get <item name> [instance]` - Retrieve a specific item
+- `view <item name>` - View item details
 
 ## Web Interface
 
@@ -186,23 +171,14 @@ The bot comes with default sorting rules for common items:
 **Tips:**
 - Bag names should match the category names in your config
 - The bot will use existing bags with space before creating/using new ones
-- Items that don't match any pattern remain in main inventory
+- Items that don't match any pattern are placed in any bag with available space
 
 ## Configuration Reference
 
-### Character Settings
-- `BankingEnabled` - Enable/disable banking services
-- `StorageEnabled` - Enable/disable storage services
-- `TradeEnabled` - Enable/disable trading
-- `PrivateMessageEnabled` - Enable/disable PM commands
-- `AutoBagEnabled` - Automatically manage bags
-- `BagReturnEnabled` - Allow bag return functionality
-
-### Security Settings
-- `AuthorizedUsers` - List of players who can use the bot
-- `MaxItemsPerTrade` - Maximum items per trade session
-- `TradeTimeoutMinutes` - Trade timeout in minutes
-- `AutoAcceptTrades` - Automatically accept trades (use with caution)
+### Web Interface Settings
+- `WebInterfaceEnabled` - Enable/disable the web interface (default: `true`)
+- `WebInterfacePort` - Port for the web interface (default: `5000`)
+- `WebInterfaceHost` - Host URL for the web interface (default: `http://localhost`)
 
 ### Auto-Sorting Settings
 - `AutoSortEnabled` - Enable/disable automatic item sorting (default: `true`)
@@ -221,14 +197,9 @@ The bot comes with default sorting rules for common items:
    - Check that the character exists on the specified dimension
 
 3. **"Access denied" messages**
-   - Make sure your character is in the `AuthorizedUsers` list in `config.json`
-   - Check that `PrivateMessageEnabled` is `true`
+   - Check that your org is allowed if org lockout is configured
 
-4. **Trade issues**
-   - Ensure `TradeEnabled` is `true` in config
-   - Check that you're within range (for position-dependent features)
-
-5. **Web interface not loading**
+4. **Web interface not loading**
    - Check that `WebInterfaceEnabled` is `true` in config
    - Verify the port isn't already in use (change `WebInterfacePort` if needed)
    - Try accessing `http://localhost:5000/` (or your configured port)
@@ -247,6 +218,5 @@ To enable debug logging, the bot will output detailed information to the console
 ## Security Notes
 
 - Keep your `launcher-config.json` secure (contains account credentials)
-- Only add trusted players to `AuthorizedUsers`
 - Consider using a dedicated account for the bankbot
-- Regularly backup your configuration and logs
+- Configure org lockout to restrict access to your organization

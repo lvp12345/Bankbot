@@ -50,32 +50,6 @@ namespace Bankbot
 
     public class CharacterSettings
     {
-        // Bankbot specific settings - Banking enabled by default
-        public bool BankingEnabled { get; set; } = true;
-        public bool StorageEnabled { get; set; } = true;
-        public bool TradeEnabled { get; set; } = true;
-        public bool PrivateMessageEnabled { get; set; } = true;
-        public bool AutoBagEnabled { get; set; } = false;
-        public bool BagReturnEnabled { get; set; } = true;
-
-        // Banking Module Settings
-        public List<string> AuthorizedUsers { get; set; } = new List<string>();
-        public Dictionary<string, string> PrivateMessageCommands { get; set; } = new Dictionary<string, string>
-        {
-            { "status", "Show bankbot status" },
-            { "help", "Show available commands" },
-            { "trade", "Start a trade session" },
-            { "return", "Return your saved items" },
-            { "bags", "List available bags" },
-            { "storage", "Access storage services" }
-        };
-
-        // Storage settings
-        public int MaxItemsPerTrade { get; set; } = 20;
-        public int TradeTimeoutMinutes { get; set; } = 5;
-        public bool LogTransactions { get; set; } = true;
-        public bool AutoAcceptTrades { get; set; } = false;
-
         // Web Interface Settings
         public bool WebInterfaceEnabled { get; set; } = true;
         public int WebInterfacePort { get; set; } = 5000;
