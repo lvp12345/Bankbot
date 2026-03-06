@@ -28,22 +28,38 @@ namespace Bankbot.Core
                 // LIST command has no org restrictions - anyone can view the catalog
                 Logger.Information($"[LIST HANDLER] Player {senderName} requesting list - no org restrictions for list command");
 
-                // Parse page number from command (default to page 1)
+                // Parse arguments: numeric = page number, text = search filter
                 int pageNumber = 1;
-                if (messageInfo.Arguments.Length > 0 && int.TryParse(messageInfo.Arguments[0], out int parsedPage))
+                string searchFilter = null;
+
+                if (messageInfo.Arguments.Length > 0)
                 {
-                    pageNumber = Math.Max(1, parsedPage); // Ensure page is at least 1
+                    if (int.TryParse(messageInfo.Arguments[0], out int parsedPage))
+                    {
+                        pageNumber = Math.Max(1, parsedPage);
+                    }
+                    else
+                    {
+                        searchFilter = string.Join(" ", messageInfo.Arguments);
+                    }
                 }
 
-                // Generate paginated content
-                string windowContent = StorageHelpTemplate.GenerateStorageWindowPaginated(pageNumber);
-
-                Logger.Information($"[LIST HANDLER] Generated page {pageNumber} content length: " + windowContent.Length);
-                Logger.Information("[LIST HANDLER] Window content preview: " + windowContent.Substring(0, Math.Min(100, windowContent.Length)));
+                // Generate content based on whether we have a search filter or page number
+                string windowContent;
+                if (!string.IsNullOrEmpty(searchFilter))
+                {
+                    windowContent = StorageHelpTemplate.GenerateStorageWindowFiltered(searchFilter);
+                    Logger.Information($"[LIST HANDLER] Generated filtered list for '{searchFilter}', length: {windowContent.Length}");
+                }
+                else
+                {
+                    windowContent = StorageHelpTemplate.GenerateStorageWindowPaginated(pageNumber);
+                    Logger.Information($"[LIST HANDLER] Generated page {pageNumber} content length: {windowContent.Length}");
+                }
 
                 SendPrivateMessage(senderName, windowContent);
 
-                Logger.Information($"[LIST HANDLER] Sent storage list page {pageNumber} to " + senderName);
+                Logger.Information($"[LIST HANDLER] Sent storage list to {senderName} (filter: {searchFilter ?? "none"}, page: {pageNumber})");
 
                 var storedItems = ItemTracker.GetStoredItems(true); // Include bags for count
                 Logger.Information($"[LIST HANDLER] LIST REQUESTED by {senderName} - {storedItems.Count} items total");

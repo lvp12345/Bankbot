@@ -63,6 +63,13 @@ namespace Bankbot
                     Core.WebServer.Initialize(Client.CharacterName, charSettings.WebInterfacePort);
                 }
 
+                // Initialize org chat commands if enabled
+                if (charSettings.OrgChatCommandsEnabled)
+                {
+                    Logger.Information($"[BANKBOT] Starting org chat listener with prefix '{charSettings.OrgChatCommandPrefix}'");
+                    Modules.OrgChatModule.Initialize(charSettings.OrgChatCommandPrefix);
+                }
+
                 // Pre-cache the storage window for instant list commands
                 Templates.StorageHelpTemplate.PreCacheStorageWindow();
 
@@ -132,6 +139,7 @@ namespace Bankbot
 
                 Core.WebServer.Shutdown();
                 PrivateMessageModule.Cleanup();
+                Modules.OrgChatModule.Cleanup();
                 Core.TradingSystem.Cleanup();
                 Client.MessageReceived -= Network_N3MessageReceived;
 

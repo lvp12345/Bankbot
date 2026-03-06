@@ -4,6 +4,8 @@
       "WebInterfaceEnabled": true,
       "WebInterfacePort": 5000,
       "WebInterfaceHost": "http://localhost",
+      "OrgChatCommandsEnabled": true,
+      "OrgChatCommandPrefix": "@",
       "AutoSortEnabled": true,
       "ItemSortingRules": {
         "Infantry Symbiants": ["infantry"],

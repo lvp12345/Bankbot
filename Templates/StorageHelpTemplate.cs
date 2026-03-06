@@ -414,6 +414,75 @@ namespace Bankbot.Templates
         }
 
         /// <summary>
+        /// Generate a filtered storage window showing only items matching the search term
+        /// </summary>
+        public static string GenerateStorageWindowFiltered(string searchFilter)
+        {
+            try
+            {
+                Logger.Information($"[STORAGE TEMPLATE] Generating filtered list for: '{searchFilter}'");
+
+                var allItems = ItemTracker.GetStoredItems(true).Cast<StoredItem>().ToList();
+                if (allItems == null || allItems.Count == 0)
+                {
+                    return "<a href=\"text://No items found in storage.\">No items found in storage.</a>";
+                }
+
+                string botName = DynelManager.LocalPlayer?.Name ?? "Bankbot";
+
+                // Filter non-container items where Name or OriginalName contains search term
+                var matchingItems = allItems.Where(item =>
+                    !item.IsContainer &&
+                    (item.Name.IndexOf(searchFilter, StringComparison.OrdinalIgnoreCase) >= 0 ||
+                     (item.OriginalName != null && item.OriginalName.IndexOf(searchFilter, StringComparison.OrdinalIgnoreCase) >= 0))
+                ).OrderBy(i => i.Name).ToList();
+
+                if (!matchingItems.Any())
+                {
+                    return $"<a href=\"text://No items matching '{searchFilter}' found.\">No results for '{searchFilter}'</a>";
+                }
+
+                var content = new StringBuilder();
+                content.AppendLine("<font color=#00D4FF>STORAGE BOT - SEARCH RESULTS</font>");
+                content.AppendLine($"<font color=#00D4FF>Bot: {botName}</font>");
+                content.AppendLine($"<font color=#FFFF00>Search: \"{searchFilter}\" ({matchingItems.Count} results)</font>");
+                content.AppendLine();
+                content.AppendLine("<img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>");
+                content.AppendLine();
+
+                foreach (var item in matchingItems)
+                {
+                    string itemRefLink = $"<a href='itemref://{item.Id}/{item.ItemInstance}/{item.QualityLevel}'>{item.Name}</a>";
+                    if (item.QualityLevel > 0)
+                        itemRefLink += $" QL{item.QualityLevel}";
+                    if (item.StackCount > 1)
+                        itemRefLink += $" x{item.StackCount}";
+
+                    string cleanItemName = CleanItemNameForCommand(item.Name);
+                    string getItemCommand = $"get {cleanItemName}";
+                    string viewItemCommand = $"view {item.Id} {item.ItemInstance}";
+
+                    string bagInfo = item.IsFromBag ? $" <font color=#888888>(in {item.SourceBagName})</font>" : "";
+                    content.AppendLine($"{itemRefLink}{bagInfo} <a href='chatcmd:///tell {botName} {getItemCommand}'>[GET]</a> <a href='chatcmd:///tell {botName} {viewItemCommand}'>[VIEW]</a>");
+                }
+
+                content.AppendLine();
+                content.AppendLine("<img src=tdb://id:GFX_GUI_FRIENDLIST_SPLITTER>");
+                content.AppendLine($"<font color=#888888>{matchingItems.Count} items matching '{searchFilter}'</font>");
+
+                string windowContent = $@"<a href=""text://{content.ToString()}"">Search: {searchFilter} ({matchingItems.Count} results)</a>";
+
+                Logger.Information($"[STORAGE TEMPLATE] Filtered list generated: {matchingItems.Count} matches for '{searchFilter}'");
+                return windowContent;
+            }
+            catch (Exception ex)
+            {
+                Logger.Information($"[STORAGE TEMPLATE] Error in GenerateStorageWindowFiltered: {ex.Message}");
+                return "Error generating filtered storage window";
+            }
+        }
+
+        /// <summary>
         /// Check if an item is a container/bag
         /// </summary>
         private static bool IsContainer(StoredItem item)
