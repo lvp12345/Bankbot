@@ -91,22 +91,53 @@ namespace Bankbot.Core
             {
                 Logger.Information($"[TRADING SYSTEM] Trade opened with {target.Instance}");
 
-                // Check org restrictions for trading
                 var tradeTarget = Trade.CurrentTarget;
                 if (tradeTarget != Identity.None)
                 {
                     var targetPlayer = DynelManager.Players.FirstOrDefault(p => p.Identity.Instance == tradeTarget.Instance);
                     if (targetPlayer != null)
                     {
-                        // Use synchronous org check for trade opening
-                        bool isAllowed = OrgLockoutConfig.IsPlayerOrgAllowed(targetPlayer.Identity.Instance, targetPlayer.Name);
-                        if (!isAllowed)
+                        // Try synchronous check with cached data first
+                        var cachedInfo = OrgLockoutConfig.GetCachedOrgInfo(targetPlayer.Identity.Instance);
+                        if (cachedInfo != null && cachedInfo.IsValid)
                         {
-                            Logger.Information($"[TRADING SYSTEM] Player {targetPlayer.Name} organization not allowed for trading");
-                            Trade.Decline();
-                            return;
+                            // We have cached data - decide immediately
+                            bool isAllowed = OrgLockoutConfig.IsPlayerOrgAllowed(targetPlayer.Identity.Instance, targetPlayer.Name);
+                            if (!isAllowed)
+                            {
+                                Logger.Information($"[TRADING SYSTEM] Player {targetPlayer.Name} organization not allowed for trading");
+                                Trade.Decline();
+                                return;
+                            }
+                            Logger.Information($"[TRADING SYSTEM] Player {targetPlayer.Name} organization allowed for trading");
                         }
-                        Logger.Information($"[TRADING SYSTEM] Player {targetPlayer.Name} organization allowed for trading");
+                        else
+                        {
+                            // No cached data - check async without blocking the trade
+                            string playerName = targetPlayer.Name;
+                            int playerId = targetPlayer.Identity.Instance;
+                            Task.Run(async () =>
+                            {
+                                try
+                                {
+                                    bool isAllowed = await OrgLockoutConfig.IsPlayerOrgAllowedAsync(playerId, playerName);
+                                    if (!isAllowed)
+                                    {
+                                        Logger.Information($"[TRADING SYSTEM] Player {playerName} organization not allowed for trading (async check)");
+                                        Trade.Decline();
+                                    }
+                                    else
+                                    {
+                                        Logger.Information($"[TRADING SYSTEM] Player {playerName} organization allowed for trading (async check)");
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    Logger.Information($"[TRADING SYSTEM] Error in async org check for {playerName}: {ex.Message}");
+                                    Trade.Decline();
+                                }
+                            });
+                        }
                     }
                 }
 

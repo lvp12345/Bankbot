@@ -55,6 +55,10 @@ namespace Bankbot
         public int WebInterfacePort { get; set; } = 5000;
         public string WebInterfaceHost { get; set; } = "http://localhost";
 
+        // Org Chat Settings
+        public bool OrgChatCommandsEnabled { get; set; } = false;
+        public string OrgChatCommandPrefix { get; set; } = "@";
+
         // Item Sorting Settings
         public bool AutoSortEnabled { get; set; } = true;
         public Dictionary<string, List<string>> ItemSortingRules { get; set; } = new Dictionary<string, List<string>>();

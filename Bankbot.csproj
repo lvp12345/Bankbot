@@ -84,6 +84,7 @@
     <Compile Include="Core\WebServer.cs" />
     <!-- Modules -->
     <Compile Include="Modules\PrivateMessageModule.cs" />
+    <Compile Include="Modules\OrgChatModule.cs" />
 
     <!-- Templates -->
     <Compile Include="Templates\BankbotScriptTemplate.cs" />
